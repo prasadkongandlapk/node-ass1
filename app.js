@@ -66,7 +66,9 @@ const checkRequestQueries = async (request, response, next) => {
       const myDate = new Date(date);
       const formatedDate = format(new Date(date), "yyyy/MM/dd");
       const result = toDate(
-        new Date`${myDate.getFullYear()}-${myDate.getMonth()}+1-${myDate.getDate()}`()
+        new Date`${myDate.getFullYear()}-${
+          myDate.getMonth() + 1
+        }-${myDate.getDate()}`()
       );
       const validate = await isValid(result);
       if (validate === true) {
@@ -129,7 +131,11 @@ const checkRequestBody = async (request, response, next) => {
     try {
       const myDate = new Date(dueDate);
       const formatedDate = format(new Date(dueDate), "yyyy/MM/dd");
-      result = toDate(new Date(formatedDate));
+      const result = toDate(
+        new Date`${myDate.getFullYear()}-${
+          myDate.getMonth() + 1
+        }-${myDate.getDate()}`()
+      );
       const validate = await isValid(result);
       if (validate === true) {
         request.date = formatedDate;
@@ -202,11 +208,9 @@ app.put("/todos/:todoId/", checkRequestBody, async (request, response) => {
            set
             todo= '${todo}'
             where id =${todoId}`;
-
       await db.run(result);
       response.send(`Todo  Updated`);
       break;
-
     case priority !== undefined:
       result = `update todo
            set
@@ -215,7 +219,6 @@ app.put("/todos/:todoId/", checkRequestBody, async (request, response) => {
       await db.run(result);
       response.send(`Priority  Updated`);
       break;
-
     case status !== undefined:
       result = `update todo
     set
@@ -224,7 +227,6 @@ app.put("/todos/:todoId/", checkRequestBody, async (request, response) => {
       await db.run(result);
       response.send(`Status  Updated`);
       break;
-
     case category !== undefined:
       result = `
          update 
@@ -235,7 +237,6 @@ app.put("/todos/:todoId/", checkRequestBody, async (request, response) => {
       await db.run(result);
       response.send(`Category  Updated`);
       break;
-
     case todo !== undefined:
       result = `update todo
            set
